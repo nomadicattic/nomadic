@@ -36,7 +36,7 @@ tasks:
     sources:
       - go.mod
       - go.sum
-      - ./*.go
+      - ./**/*.go
     cmds:
       - go build -ldflags="-X 'main.version={{.VERSION}}' -X 'main.hash={{.HASH}}'"
     status:
