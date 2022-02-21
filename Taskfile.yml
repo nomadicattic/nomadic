@@ -24,7 +24,7 @@ tasks:
     cmds:
       - task --list
 
-  nomadic:
+  build:
     desc: Builds go binary
     sources:
       - go.mod
