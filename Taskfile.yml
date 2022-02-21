@@ -12,6 +12,8 @@ vars:
     sh: git symbolic-ref --short HEAD | cut -f1 -d-
   COMMITS:
     sh: git describe --tags | cut -f2 -d-
+  HASH:
+    sh: git rev-parse --short HEAD
   VERSION0: "{{.MAJOR}}.{{.MINOR}}.{{.PATCH}}"
   VERSION1:
     sh: if [ "{{.BRANCH}}" != "main" ]; then echo "{{.VERSION0}}-issue.{{.BRANCH}}"; else echo "{{.VERSION0}}"; fi 
@@ -23,6 +25,11 @@ tasks:
     desc: Shows task descriptions
     cmds:
       - task --list
+  
+  tidy:
+    desc: Tidies modules
+    cmds:
+      - go mod tidy
 
   build:
     desc: Builds go binary
@@ -31,7 +38,7 @@ tasks:
       - go.sum
       - ./*.go
     cmds:
-      - go build
+      - go build -ldflags="-X 'main.version={{.VERSION}}' -X 'main.hash={{.HASH}}'"
     status:
       - test -f {{.NAME}}
   
